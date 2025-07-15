@@ -63,7 +63,7 @@ const jadwal = {
 
 let tugas = {};
 const dateInput = document.getElementById('dateInput');
-let currentDate = new Date().toISOString().slice(0,10);
+let currentDate = dateInput.placeholder;
 dateInput.value = currentDate;
 dateInput.addEventListener('input', loadTugas);
 
