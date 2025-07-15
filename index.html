@@ -128,10 +128,9 @@ function render(){
         card.onclick = () => showPopup(tugas[key]);
       } else {
         card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
-      }
-
-      if (hari === selectedDayName) {
-        card.classList.add('auto-highlight');
+        if (hari === selectedDayName) {
+          card.classList.add('auto-highlight');
+        }
       }
 
       col.appendChild(card);
