@@ -5,35 +5,63 @@
   <title>Jadwal & Tugas</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <style>
-    :root{--biru:#1a237e;--biru-muda:#b3e5fc;--putih:#fff;--hitam:#222;--highlight:#ffcdd2}
+    :root{--merah:#c62828;--merah-muda:#ffebee;--putih:#fff;--hitam:#222;--highlight:#ffcdd2}
     *{box-sizing:border-box}
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(to bottom, #1a237e, #b3e5fc);color:var(--hitam); overflow-x:hidden;}
-    header{background:var(--biru);color:var(--putih);padding:.4rem .8rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-    #dateSel{background:var(--putih);color:var(--biru);border:none;border-radius:4px;padding:.2rem .4rem;font-size:.9rem}
-    #badge{background:var(--putih);color:var(--biru);border-radius:50%;padding:.2rem .5rem;font-size:.8rem;font-weight:700}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(to bottom, #1e3c72, #2a5298, #34698e, #3f84a3, #4b8cb7, #5c97bf, #6fb1c5, #82c9ce, #95d7d8, #a9e4e1, #bde4eb, #d1f2f4, #e6f3fc, #f9fcfd);color:var(--hitam); overflow-x:hidden;}
+    header{background:var(--merah);color:var(--putih);padding:.4rem .8rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+    #dateSel{background:var(--putih);color:var(--merah);border:none;border-radius:4px;padding:.2rem .4rem;font-size:.9rem}
+    #badge{background:var(--putih);color:var(--merah);border-radius:50%;padding:.2rem .5rem;font-size:.8rem;font-weight:700}
     .wrapper{overflow-x:auto;padding:.4rem}
     .grid{display:flex;gap:.5rem;min-width:max-content}
     .col{min-width:150px}
-    h3{margin:.3rem 0;text-align:center;color:var(--biru);font-size:1rem}
-    .card{background:var(--putih);border:2px solid var(--biru);border-radius:10px;padding:.6rem;margin-bottom:.3rem;text-align:center;font-weight:600;cursor:pointer;transition:transform .15s,background .15s,box-shadow .3s;font-size:.9rem;box-shadow:0 4px 6px rgba(0,0,0,.1)}
-    .card:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,.2)}
+    h3{margin:.3rem 0;text-align:center;color:var(--merah);font-size:1rem}
+    .card{background:var(--putih);border:2px solid var(--merah);border-radius:6px;padding:.6rem;margin-bottom:.3rem;text-align:center;font-weight:600;cursor:pointer;transition:transform .15s,background .15s;font-size:.9rem}
+    .card:hover{transform:translateY(-2px)}
     .card.highlight{background:var(--highlight);border-color:#b71c1c}
     #popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:10;opacity:0;pointer-events:none;transition:opacity .2s}
     #popup.show{opacity:1;pointer-events:auto}
     #popupBox{background:var(--putih);max-width:320px;width:90%;border-radius:8px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.25);text-align:center}
-    #popupTitle{margin:.2rem 0 .6rem;font-size:1.1rem;font-weight:700;color:var(--biru)}
+    #popupTitle{margin:.2rem 0 .6rem;font-size:1.1rem;font-weight:700;color:var(--merah)}
     #popupText{white-space:pre-wrap;margin-bottom:0}
     @media(max-width:600px){
       .wrapper{overflow-x:visible}
       .grid{flex-direction:column;min-width:0}
       .col{min-width:100%}
     }
+    /* Starry background */
+    #starry-sky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .star {
+      width: 1px;
+      height: 1px;
+      background: transparent;
+      border-radius: 50%;
+      position: absolute;
+      will-change: opacity, transform;
+      animation: twinkle 200s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
-<div id="video-background">
-  <iframe src="https://www.youtube.com/embed/cASGf37ekY0?autoplay=1&mute=1&controls=0" frameborder="0" allowfullscreen></iframe>
-</div>
+<div id="starry-sky"></div>
 
 <header>
   <div>
@@ -86,21 +114,21 @@ function render(){
   let count = 0;
   for (const hari of ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"]){
     const col = document.createElement('div'); col.className = 'col';
-    col.innerHTML = `<h3>${hari}</h3>`;
-    jadwal[hari].forEach((pel, idx) => {
-      const key = `${currentDate}_${hari}-${pel}-${idx}`;
-      const card = document.createElement('div'); card.className = 'card';
-      card.textContent = pel;
-      if (tugas[key]){
-        card.classList.add('highlight');
-        count++;
-        card.onclick = () => showPopup(tugas[key]);
-      } else {
-        card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
-      }
-      col.appendChild(card);
-    });
-    grid.appendChild(col);
+   col.innerHTML = `<h3>${hari}</h3>`;
+   jadwal[hari].forEach((pel, idx) => {
+     const key = `${currentDate}_${hari}-${pel}-${idx}`;
+     const card = document.createElement('div'); card.className = 'card';
+     card.textContent = pel;
+     if (tugas[key]){
+       card.classList.add('highlight');
+       count++;
+       card.onclick = () => showPopup(tugas[key]);
+     } else {
+       card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
+     }
+     col.appendChild(card);
+   });
+   grid.appendChild(col);
   }
   document.getElementById('badge').textContent = `${currentDate} ▸ ${count}`;
 }
@@ -111,6 +139,19 @@ function showPopup(text){
 }
 function closePopup(){
   document.getElementById('popup').classList.remove('show');
+}
+
+// Generate stars for the starry sky
+const starrySky = document.getElementById('starry-sky');
+for (let i = 0; i < 100; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = `${Math.random() * window.innerWidth}px`;
+  star.style.top = `${Math.random() * window.innerHeight}px`;
+  star.style.opacity = Math.random();
+  star.style.animationDuration = `${Math.random() * 5 + 2}s`;
+  star.style.boxShadow = `#FFF ${Math.random() * 100}px ${Math.random() * 100}px ${Math.random() * 100}px ${Math.random() * 100}px`;
+  starrySky.appendChild(star);
 }
 </script>
 </body>
