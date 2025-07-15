@@ -14,7 +14,7 @@
     .wrapper{overflow-x:auto;padding:.4rem}
     .grid{display:flex;gap:.5rem;min-width:max-content}
     .col{min-width:150px}
-    h3{margin:.3rem 0;text-align:center;color:var(--putih);font-size:1rem} /* Day names in white */
+    h3{margin:.3rem 0;text-align:center;color:var(--putih);font-size:1rem}
     .card{background:var(--putih);border:2px solid var(--biru);border-radius:10px;padding:.6rem;margin-bottom:.3rem;text-align:center;font-weight:600;cursor:pointer;transition:transform .15s,background .15s,box-shadow .3s;font-size:.9rem;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
     .card:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.2)}
     .card.highlight{background:var(--highlight);border-color:#b71c1c}
@@ -41,20 +41,23 @@
     }
     .star {
       position: absolute;
-      width: 2px;
-      height: 2px;
+      width: 3px;
+      height: 3px;
       background: transparent;
       border-radius: 50%;
       will-change: opacity, transform;
-      animation: twinkle 200s infinite;
+      animation: twinkle 200s infinite linear;
     }
     @keyframes twinkle {
       0% {
-        transform: translateX(0);
-        opacity: 0.7;
+        transform: translateX(-100vw);
+        opacity: 0;
       }
-      50% {
-        opacity: 1;
+      25% {
+        opacity: 0.8;
+      }
+      75% {
+        opacity: 0.8;
       }
       100% {
         transform: translateX(100vw);
@@ -117,17 +120,17 @@ function render(){
   let count = 0;
   for (const hari of ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"]){
     const col = document.createElement('div'); col.className = 'col';
-    col.innerHTML = `<h3>${hari}</h3>`;
-    jadwal[hari].forEach((pel, idx) => {
-      const key = `${currentDate}_${hari}-${pel}-${idx}`;
-      const card = document.createElement('div'); card.className = 'card';
-      card.textContent = pel;
-      if (tugas[key]){
-        card.classList.add('highlight');
-        count++;
-        card.onclick = () => showPopup(tugas[key]);
-      } else {
-        card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
+   col.innerHTML = `<h3>${hari}</h3>`;
+   jadwal[hari].forEach((pel, idx) => {
+     const key = `${currentDate}_${hari}-${pel}-${idx}`;
+     const card = document.createElement('div'); card.className = 'card';
+     card.textContent = pel;
+     if (tugas[key]){
+       card.classList.add('highlight');
+       count++;
+       card.onclick = () => showPopup(tugas[key]);
+     } else {
+       card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
       }
       col.appendChild(card);
     });
