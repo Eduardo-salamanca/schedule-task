@@ -33,8 +33,8 @@
 <body>
 <header>
   <div>
-    <label for="dateInput">Tanggal:</label>
-    <input id="dateInput" type="text" placeholder="2025-07-16" maxlength="10">
+    <label for="dateSel">Tanggal:</label>
+    <input id="dateSel" type="date">
   </div>
   <div id="badge">--</div>
 </header>
@@ -62,10 +62,10 @@ const jadwal = {
 };
 
 let tugas = {};
-const dateInput = document.getElementById('dateInput');
-let currentDate = dateInput.placeholder;
-dateInput.value = currentDate;
-dateInput.addEventListener('input', loadTugas);
+const dateSel = document.getElementById('dateSel');
+let currentDate = new Date().toISOString().slice(0,10);
+dateSel.value = currentDate;
+dateSel.addEventListener('change', loadTugas);
 
 function loadTugas(){
   if (!currentDate) return;
