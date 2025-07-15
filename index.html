@@ -9,7 +9,7 @@
     *{box-sizing:border-box}
     body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--merah-muda);color:var(--hitam)}
     header{background:var(--merah);color:var(--putih);padding:.4rem .8rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
-    #dateInput{background:var(--putih);color:var(--merah);border:none;border-radius:4px;padding:.2rem .4rem;font-size:.9rem;width:110px;text-align:center}
+    #dateSel{background:var(--putih);color:var(--merah);border:none;border-radius:4px;padding:.2rem .4rem;font-size:.9rem}
     #badge{background:var(--putih);color:var(--merah);border-radius:50%;padding:.2rem .5rem;font-size:.8rem;font-weight:700}
     .wrapper{overflow-x:auto;padding:.4rem}
     .grid{display:flex;gap:.5rem;min-width:max-content}
@@ -34,7 +34,7 @@
 <header>
   <div>
     <label for="dateSel">Tanggal:</label>
-    <input id="dateSel" type="date">
+    <input type="date" id="dateSel">
   </div>
   <div id="badge">--</div>
 </header>
@@ -68,7 +68,7 @@ dateSel.value = currentDate;
 dateSel.addEventListener('change', loadTugas);
 
 function loadTugas(){
-  if (!currentDate) return;
+  currentDate = dateSel.value;
   fetch(`tugas-${currentDate}.json`)
     .then(r => r.ok ? r.json() : {})
     .then(data => { tugas = data || {}; render(); })
