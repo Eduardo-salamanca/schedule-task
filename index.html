@@ -33,8 +33,11 @@
 <body>
 <header>
   <div>
-    <label for="dateSel">Lihat tanggal:</label>
-    <input type="date" id="dateSel">
+  
+<!-- NEW -->
+<label for="dateInput">Tgl:</label>
+<input id="dateInput" type="text" placeholder="2025-07-19" maxlength="10">
+
   </div>
   <div id="badge">--</div>
 </header>
@@ -62,8 +65,13 @@ const jadwal = {
 };
 
 let tugas = {};
-const dateSel = document.getElementById('dateSel');
-let currentDate = new Date().toISOString().slice(0,10); // hari ini
+
+// NEW
+const dateInput = document.getElementById('dateInput');
+let currentDate = new Date().toISOString().slice(0,10);
+dateInput.value = currentDate;
+dateInput.addEventListener('input', () => { currentDate = dateInput.value; loadTugas(); });
+
 
 dateSel.value = currentDate;
 dateSel.addEventListener('change', loadTugas);
