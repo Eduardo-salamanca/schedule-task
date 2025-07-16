@@ -5,9 +5,9 @@
   <title>Jadwal & Tugas</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <style>
-    :root{--biru:#1a237e;--biru-muda:#b3e5fc;--putih:#fff;--hitam:#222;--highlight:#ffcdd2}
+    :root{--biru:#1a237e;--biru-muda:#b3e5fc;--putih:#fff;--hitam:#222;--highlight:#ffcdd2;--auto-highlight:#fff176}
     *{box-sizing:border-box}
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--biru-muda);color:var(--hitam); overflow-x:hidden;}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(to bottom, #1a237e, #b3e5fc);color:var(--hitam); overflow-x:hidden;}
     header{background:var(--biru);color:var(--putih);padding:.4rem .8rem;display:flex;justify-content:space-between;align-items:center;font-weight:600}
     select{background:var(--putih);color:var(--biru);border:none;border-radius:4px;padding:.2rem .4rem;font-size:.9rem}
     #badge{background:var(--putih);color:var(--biru);border-radius:50%;padding:.2rem .5rem;font-size:.8rem;font-weight:700}
@@ -18,6 +18,7 @@
     .card{background:var(--putih);border:2px solid var(--biru);border-radius:10px;padding:.6rem;margin-bottom:.3rem;text-align:center;font-weight:600;cursor:pointer;transition:transform .15s,background .15s,box-shadow .3s;font-size:.9rem;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
     .card:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.2)}
     .card.highlight{background:var(--highlight);border-color:#b71c1c}
+    .card.auto-highlight{background:var(--auto-highlight);border-color:#fbc02d}
     #popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:10;opacity:0;pointer-events:none;transition:opacity .2s}
     #popup.show{opacity:1;pointer-events:auto}
     #popupBox{background:var(--putih);max-width:320px;width:90%;border-radius:8px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.25);text-align:center}
@@ -91,12 +92,12 @@
 
 <script>
 const jadwal = {
-  Senin:   ["Bahasa Indonesia","Bahasa Indonesia","Bahasa Inggris","Bahasa Inggris","Fisika","Fisika","Seni Rupa","TIK","TIK"],
-  Selasa:  ["Mandarin","Mandarin","Bahasa Indonesia","Sejarah","Sejarah","Bahasa Inggris","Bahasa Inggris","Matematika","Matematika"],
-  Rabu:    ["Fisika","Fisika","Biologi","Biologi","PPKn","PPKn","Musik","Matematika","Matematika"],
-  Kamis:   ["Penjas","Penjas","Kimia","Kimia","Matematika","Biologi","Biologi"],
-  Jumat:   ["Agama","Agama","Ekstrakurikuler","Matematika","Mandarin","Mandarin"],
-  Sabtu:   ["Kimia","Kimia","Matematika","Matematika","Mandarin","Mandarin","Bahasa Indonesia"]
+  Senin:   ["Bahasa Indonesia", "Bahasa Indonesia", "Bahasa Inggris", "Bahasa Inggris", "Fisika", "Fisika", "Seni Rupa", "TIK", "TIK"],
+  Selasa:  ["Mandarin", "Mandarin", "Bahasa Indonesia", "Sejarah", "Sejarah", "Bahasa Inggris", "Bahasa Inggris", "Matematika", "Matematika"],
+  Rabu:    ["Fisika", "Fisika", "Biologi", "Biologi", "PPKn", "PPKn", "Musik", "Matematika", "Matematika"],
+  Kamis:   ["Penjas", "Penjas", "Kimia", "Kimia", "Matematika", "Biologi", "Biologi"],
+  Jumat:   ["Agama", "Agama", "Ekstrakurikuler", "Matematika", "Mandarin", "Mandarin"],
+  Sabtu:   ["Kimia", "Kimia", "Matematika", "Matematika", "Mandarin", "Mandarin", "Bahasa Indonesia"]
 };
 
 let tugas = {};
