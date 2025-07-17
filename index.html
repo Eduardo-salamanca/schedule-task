@@ -56,6 +56,7 @@
       box-shadow: 2px 2px 5px rgba(0,0,0,0.2), inset -2px -2px 5px rgba(255,255,255,0.6);
       border: 1px solid rgba(0,0,0,0.1);
       transition: transform 0.2s;
+      cursor: pointer;
     }
 
     #badge:hover {
@@ -183,7 +184,7 @@
     <label for="dateSel">Tanggal:</label>
     <input type="date" id="dateSel" value="2025-07-17">
   </div>
-  <div id="badge">--</div>
+  <div id="badge" onclick="showAllDeadlines()">--</div>
 </header>
 <div class="wrapper">
   <div class="grid" id="jadwal"></div>
@@ -242,23 +243,7 @@ function render(){
         count++;
         const task = tugas[key];
         card.onclick = () => showPopup(task);
-
-        if (typeof task === "object" && task.deadline) {
-          const today = new Date(currentDate);
-          const deadline = new Date(task.deadline);
-
-          if (deadline < today) {
-            // 🔴 Overdue
-            card.style.backgroundColor = "#ffcccc";
-            card.style.borderColor = "#8b0000";
-          } else {
-            // 🟩 On time
-            card.style.backgroundColor = "#ccffcc";
-            card.style.borderColor = "#006400";
-          }
-        } else {
-          card.classList.add('highlight');
-        }
+        card.classList.add('highlight'); // default color
       } else {
         card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
         if (hari === selectedDayName) {
@@ -283,11 +268,43 @@ function showPopup(task){
   } else {
     popupText.textContent = task;
   }
+  document.getElementById('popupTitle').textContent = 'Informasi Tugas';
   document.getElementById('popup').classList.add('show');
 }
 
 function closePopup(){
   document.getElementById('popup').classList.remove('show');
+}
+
+function showAllDeadlines(){
+  const lines = [];
+  const today = new Date(currentDate);
+
+  for (const key in tugas) {
+    const task = tugas[key];
+    if (typeof task === 'object') {
+      let text = task.text || '[Tanpa nama]';
+      if (task.deadline) {
+        const deadline = new Date(task.deadline);
+        const diff = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+        if (diff >= 0) {
+          lines.push(`📝 ${text} — ${diff} day${diff !== 1 ? 's' : ''} left (due: ${task.deadline})`);
+        } else {
+          lines.push(`📝 ${text} — overdue (due: ${task.deadline})`);
+        }
+      } else {
+        lines.push(`📝 ${text} — no deadline`);
+      }
+    } else if (typeof task === 'string') {
+      lines.push(`📝 ${task} — no deadline`);
+    }
+  }
+
+  document.getElementById('popupTitle').textContent = 'Daftar Deadline';
+  document.getElementById('popupText').textContent = lines.length
+    ? lines.join('\n')
+    : 'Tidak ada tugas';
+  document.getElementById('popup').classList.add('show');
 }
 </script>
 </body>
