@@ -85,7 +85,6 @@
       font-size: 1rem;
     }
 
-    /* ✅ Minecraft-style card buttons */
     .card {
       background-color: #c6c6c6;
       border: 4px solid #3f3f3f;
@@ -158,6 +157,9 @@
     #popupText {
       white-space: pre-wrap;
       margin-bottom: 0;
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
 
     @media(max-width:600px){
@@ -202,20 +204,25 @@ const jadwal = {
   Jumat:["Agama","Agama","Ekstrakurikuler","Matematika","Mandarin","Mandarin"],
   Sabtu:["Kimia","Kimia","Matematika","Matematika","Mandarin","Mandarin","Bahasa Indonesia"]
 };
+
 let tugas = {};
 const dateSel = document.getElementById('dateSel');
 let currentDate = dateSel.value;
+
 dateSel.addEventListener('change', () => {
   currentDate = dateSel.value;
   loadTugas();
 });
+
 function loadTugas(){
   fetch(`tugas-${currentDate}.json`)
     .then(r => r.ok ? r.json() : {})
     .then(data => { tugas = data || {}; render(); })
     .catch(() => { tugas = {}; render(); });
 }
+
 loadTugas();
+
 function render(){
   const grid = document.getElementById('jadwal');
   grid.innerHTML = '';
@@ -223,29 +230,43 @@ function render(){
   const days = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
   const selectedDayName = days[new Date(currentDate).getDay()];
   for(const hari of ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"]){
-    const col=document.createElement('div');col.className='col';
-    col.innerHTML=`<h3>${hari}</h3>`;
-    jadwal[hari].forEach((pel,idx)=>{
-      const key=`${currentDate}_${hari}-${pel}-${idx}`;
-      const card=document.createElement('div');card.className='card';card.textContent=pel;
+    const col = document.createElement('div');
+    col.className = 'col';
+    col.innerHTML = `<h3>${hari}</h3>`;
+    jadwal[hari].forEach((pel, idx) => {
+      const key = `${currentDate}_${hari}-${pel}-${idx}`;
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = pel;
       if(tugas[key]){
         card.classList.add('highlight');
         count++;
-        card.onclick=()=>showPopup(tugas[key]);
+        card.onclick = () => showPopup(tugas[key]);
       } else {
-        card.onclick=()=>showPopup('Tidak ada tugas yang diberikan');
-        if(hari===selectedDayName) card.classList.add('auto-highlight');
+        card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
+        if(hari === selectedDayName) card.classList.add('auto-highlight');
       }
       col.appendChild(card);
     });
     grid.appendChild(col);
   }
-  document.getElementById('badge').textContent=`${currentDate} ▸ ${count}`;
+  document.getElementById('badge').textContent = `${currentDate} ▸ ${count}`;
 }
-function showPopup(text){
-  document.getElementById('popupText').textContent=text;
+
+function showPopup(task){
+  const popupText = document.getElementById('popupText');
+  if (typeof task === 'object') {
+    let html = `<strong>📘 ${task.text || "Tugas belum ditentukan"}</strong>`;
+    if (task.deadline) {
+      html += `<br><span style="color:green">📅 Deadline: ${task.deadline}</span>`;
+    }
+    popupText.innerHTML = html;
+  } else {
+    popupText.textContent = task;
+  }
   document.getElementById('popup').classList.add('show');
 }
+
 function closePopup(){
   document.getElementById('popup').classList.remove('show');
 }
