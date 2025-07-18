@@ -4,7 +4,10 @@
   <meta charset="UTF-8"/>
   <title>Jadwal & Tugas</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <!-- Load New Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --biru: #1a237e;
@@ -88,16 +91,16 @@
     .card {
       background-color: #c6c6c6;
       border: 4px solid #3f3f3f;
-      border-radius: 0;
+      border-radius: 8px;
       padding: 0.8rem 0.5rem;
       margin-bottom: .4rem;
-      font-weight: bold;
-      font-family: 'Press Start 2P', monospace;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif; /* updated font */
       text-align: center;
       cursor: pointer;
       box-shadow: inset -4px -4px 0 #fff, inset 4px 4px 0 #8a8a8a;
       transition: transform 0.05s ease;
-      font-size: 0.6rem;
+      font-size: 0.75rem;
       user-select: none;
     }
 
@@ -243,7 +246,7 @@ function render(){
         count++;
         const task = tugas[key];
         card.onclick = () => showPopup(task);
-        card.classList.add('highlight'); // default color
+        card.classList.add('highlight');
       } else {
         card.onclick = () => showPopup('Tidak ada tugas yang diberikan');
         if (hari === selectedDayName) {
