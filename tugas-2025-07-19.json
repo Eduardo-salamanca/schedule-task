@@ -1,4 +1,8 @@
 {
-  "2025-07-19_Sabtu-Matematika-2": "catat cara ke2",
-  "2025-07-19_Sabtu-Kimia-1": "catatan ada di grup"
+  "2025-07-19_Sabtu-Matematika-2": {
+    "text": "Catat cara ke-2"
+  },
+  "2025-07-19_Sabtu-Kimia-1": {
+    "text": "Catatan ada di grup"
+  }
 }
